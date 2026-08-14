@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabering</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f7f5f2;
+    --text: #1c1a17;
+    --muted: #6b6560;
+    --accent: #d4501e;
+    --border: #e5e0da;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161412;
+      --surface: #201d1a;
+      --text: #f0ece7;
+      --muted: #a39c94;
+      --accent: #f0743f;
+      --border: #322d28;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 72px 24px 96px;
+  }
+  header { margin-bottom: 56px; }
+  h1 {
+    font-size: 2.5rem;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .tagline {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin: 0;
+  }
+  h2 {
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 48px 0 16px;
+    font-weight: 600;
+  }
+  ul { padding-left: 1.2em; margin: 0; }
+  li { margin-bottom: 8px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+  a { color: var(--accent); }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  footer {
+    margin-top: 72px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Tabering</h1>
+    <p class="tagline">お気に入りのお店を記録して、グループで共有するアプリ</p>
+  </header>
+
+  <div class="card">
+    <ul>
+      <li>お気に入りのお店を登録し、訪問記録（コメント・評価）を管理</li>
+      <li>グループを作成してメンバーとお店・記録を共有</li>
+      <li>地図からお店を探す</li>
+    </ul>
+  </div>
+
+  <h2>リンク</h2>
+  <ul class="links">
+    <li><a href="https://apps.apple.com/jp/app/tabering/id6800022613">App Store</a></li>
+    <li><a href="https://kjnk517.github.io/tabering-privacy/">プライバシーポリシー</a></li>
+  </ul>
+
+  <h2>お問い合わせ</h2>
+  <p>support.tabering@gmail.com</p>
+
+  <footer>
+    © 2026 Naoki Kitayama
+  </footer>
+
+</div>
+</body>
+</html>
