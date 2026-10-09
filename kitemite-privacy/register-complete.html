@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>パスワードの設定 - きてみて</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      background: #f2f2f7;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    }
+    .app-name {
+      color: #C87964;
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 22px;
+      color: #1c1c1e;
+      margin-bottom: 8px;
+    }
+    .desc {
+      font-size: 14px;
+      color: #6e6e73;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      color: #3a3a3c;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .input-wrap {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: 14px 48px 14px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      color: #1c1c1e;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    input:focus { border-color: #C87964; }
+    .toggle-pw {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      color: #6e6e73;
+      padding: 4px;
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 15px;
+      background: #C87964;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button[type="submit"]:disabled { opacity: 0.5; cursor: default; }
+    .message {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      display: none;
+    }
+    .message.error { background: #fff0f0; color: #c0392b; display: block; }
+    .message.success { background: #f0fff4; color: #1a7a3c; display: block; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="app-name">きてみて</div>
+    <h1>パスワードを設定</h1>
+    <p class="desc">アカウントに設定するパスワードを入力してください。<br>8文字以上で、大文字・小文字・数字・記号のうち3種類以上を含めてください。</p>
+
+    <form id="registerForm">
+      <label for="password">パスワード（8文字以上）</label>
+      <div class="input-wrap">
+        <input type="password" id="password" placeholder="8文字以上" required />
+        <button type="button" class="toggle-pw" onclick="togglePw('password', this)">表示</button>
+      </div>
+
+      <label for="confirm">パスワード（確認）</label>
+      <div class="input-wrap">
+        <input type="password" id="confirm" placeholder="もう一度入力" required />
+        <button type="button" class="toggle-pw" onclick="togglePw('confirm', this)">表示</button>
+      </div>
+
+      <button type="submit" id="submitBtn">パスワードを設定する</button>
+    </form>
+
+    <div id="message" class="message"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    const SUPABASE_URL = 'https://obwibfrgawyabtlfducx.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_6nz7lnxnymU6AMi80L3sbw_8DioWZqx';
+    const { createClient } = supabase;
+    const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { detectSessionInUrl: true, flowType: 'implicit' }
+    });
+
+    async function init() {
+      const hash = window.location.hash.substring(1);
+      const hashParams = Object.fromEntries(new URLSearchParams(hash));
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+
+      if (hashParams.error) {
+        showMessage('リンクが無効または期限切れです。再度登録メールを送信してください。', 'error');
+        document.getElementById('registerForm').style.display = 'none';
+        return;
+      }
+
+      if (hashParams.access_token && hashParams.refresh_token) {
+        const { error } = await client.auth.setSession({
+          access_token: hashParams.access_token,
+          refresh_token: hashParams.refresh_token,
+        });
+        if (error) {
+          showMessage('セッションの設定に失敗しました: ' + error.message, 'error');
+          document.getElementById('registerForm').style.display = 'none';
+        }
+      } else if (code) {
+        const { error } = await client.auth.exchangeCodeForSession(code);
+        if (error) {
+          showMessage('リンクが無効または期限切れです。再度登録メールを送信してください。', 'error');
+          document.getElementById('registerForm').style.display = 'none';
+        }
+      } else {
+        const { data } = await client.auth.getSession();
+        if (!data.session) {
+          showMessage('リンクが無効です。再度登録メールを送信してください。', 'error');
+          document.getElementById('registerForm').style.display = 'none';
+        }
+      }
+    }
+    init();
+
+    function togglePw(id, btn) {
+      const input = document.getElementById(id);
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.textContent = isHidden ? '非表示' : '表示';
+    }
+
+    function showMessage(text, type) {
+      const el = document.getElementById('message');
+      el.textContent = text;
+      el.className = 'message ' + type;
+    }
+
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+
+      if (password.length < 8) {
+        showMessage('パスワードは8文字以上で入力してください。', 'error');
+        return;
+      }
+      const hasUpper = /[A-Z]/.test(password);
+      const hasLower = /[a-z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      const hasSymbol = /[^A-Za-z0-9]/.test(password);
+      const typeCount = [hasUpper, hasLower, hasNumber, hasSymbol].filter(Boolean).length;
+      if (typeCount < 3) {
+        showMessage('大文字・小文字・数字・記号のうち3種類以上を含めてください。', 'error');
+        return;
+      }
+      if (password !== confirm) {
+        showMessage('パスワードが一致していません。', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = '設定中...';
+
+      const { error } = await client.auth.updateUser({ password });
+      if (error) {
+        let msg = error.message;
+        if (msg.includes('Auth session missing')) msg = 'セッションが切れました。再度登録メールを送信してください。';
+        showMessage('エラーが発生しました: ' + msg, 'error');
+        btn.disabled = false;
+        btn.textContent = 'パスワードを設定する';
+      } else {
+        showMessage('パスワードを設定しました。アプリからログインしてください。', 'success');
+        document.getElementById('registerForm').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
