@@ -14,10 +14,12 @@
   dd { margin: 4px 0 0 0; }
   a { color: #22406e; }
   small { color: #5a6072; }
+  .langs { font-size: 14px; }
   .en { margin-top: 48px; padding-top: 8px; border-top: 1px solid #5a6072; font-size: 15px; }
 </style>
 </head>
 <body>
+<p class="langs">日本語 ・ <a href="en/">English</a> ・ <a href="zh-hans/">简体中文</a> ・ <a href="zh-hant/">繁體中文</a> ・ <a href="ko/">한국어</a></p>
 <h1>おすそわけ長屋</h1>
 <p>おすそわけ長屋は、作ったごはんを記録すると、匂いにつられて小さな動物の家族が長屋に越してくる iPhone 向けのアプリです。料理の写真は小さなドット絵になって、住人の食卓に並びます。写真がなくても、一覧から料理を選べば、その料理のドット絵が並びます。外で食べたごはんや買ってきたごはんも記録できます。</p>
 
@@ -49,6 +51,10 @@
 
   <dt>天気は、どこの天気ですか。</dt>
   <dd>選んだ都道府県の、都道府県庁のある町の天気と、日の出・日の入りの時刻です。位置情報は使わないので、同じ県でもお住まいの町の空と少し違うことがあります。地域は町の画面の上にある地域の札から選び直せます。選んでいなければ東京都の空です。</dd>
+  <dd>日本以外の地域に設定した iPhone では、端末の時間帯（タイムゾーン）に合う世界の主な都市の空と天気になります。都市は同じ札から選び直せます。町の時刻は、いつも端末の時刻のままです。</dd>
+
+  <dt>小物や飾りは、どうすればもらえますか。</dt>
+  <dd>住人の家の看板の料理を何回か作る、その家族ともっとなかよくなる、住人に何日か話しかける、などでもらえます。冬の小物は、冬の行事の期間（12月21日〜1月8日）に記録した日の数でもらえ、スタンプ帳で数を確かめられます。もらい方のヒントは小物帳で見られます。取り逃した冬の小物は、次の冬にまたもらえます。</dd>
 
   <dt>アプリを削除すると、どうなりますか。</dt>
   <dd>町と記録、写真はすべて消えます。iCloud バックアップがあれば、バックアップから戻せます。</dd>
@@ -80,8 +86,8 @@
 <p>カメラは、料理を撮るときだけ使います。写真は、システムの写真の選択画面で選んだものだけを読み込み、写真ライブラリ全体にはアクセスしません。写真とドット絵は端末の中だけで処理し、写真に含まれる位置情報は保存するときに取り除きます。共有カードが端末の外に出るのは、ご自身で共有したときだけです。写真アプリへの保存も、ご自身が選んだときだけ行います。</p>
 
 <h2>位置情報と天気</h2>
-<p>本アプリは端末の位置情報を使わず、位置情報の許可も求めません。地域は47都道府県から選ぶだけです。</p>
-<p>町の空を実際の天気に合わせるため、選んだ都道府県の都道府県庁の座標（アプリに入っている決まった値）だけを、iOS の WeatherKit を通じて Apple に送り、天気予報を受け取ります。開発者はこの座標を受け取りません。Apple での取り扱いは <a href="https://www.apple.com/jp/legal/privacy/">Apple のプライバシーポリシー</a>に従います。</p>
+<p>本アプリは端末の位置情報を使わず、位置情報の許可も求めません。地域は47都道府県から選ぶだけです。日本以外の地域に設定した iPhone では、端末の時間帯（タイムゾーン）の設定から世界の主な都市を1つ決めます（選び直すこともできます）。時間帯の設定は端末の中で読むだけで、どこにも送りません。</p>
+<p>町の空を実際の天気に合わせるため、選んだ都道府県の都道府県庁の座標、または選んだ都市の座標（どちらもアプリに入っている決まった値）だけを、iOS の WeatherKit を通じて Apple に送り、天気予報を受け取ります。開発者はこの座標を受け取りません。Apple での取り扱いは <a href="https://www.apple.com/jp/legal/privacy/">Apple のプライバシーポリシー</a>に従います。</p>
 
 <h2>広告について</h2>
 <p>本アプリは、Google LLC の広告配信サービス Google AdMob を使って、全画面の広告と、見るかどうかを選べる動画の広告（リワード広告）を表示します。リワード広告は、記録のあとに匂いをもう少し立てるときと、掲示板のリクエストを2回目から貼り替えるときに、ボタンを押した場合だけ流れます。最後まで見ると、その分が町に反映されます。広告の配信と効果の測定のため、Google および同社のパートナーが、広告識別子（IDFA。トラッキングを許可した場合だけ）、IP アドレスとそこから推定されるおおよその地域、端末の機種や OS の版、広告の表示やタップの記録などを取得し、利用することがあります。これらは Google が直接受け取るもので、開発者は受け取りません。</p>
@@ -107,11 +113,11 @@
 <h2>ポリシーの変更</h2>
 <p>本ポリシーは必要に応じて変更することがあります。変更後のポリシーは、このページに掲載します。</p>
 
-<p><small>最終更新日：2026年10月1日</small></p>
+<p><small>最終更新日：2026年11月20日</small></p>
 
 <div class="en">
-<p><strong>Summary in English</strong></p>
-<p>Osusowake Nagaya keeps your photos and records only on your iPhone. There is no account, and the developer runs no server and no analytics. The app does not use your location: it sends only the fixed coordinates of the prefectural capital you choose to Apple WeatherKit to get the weather.</p>
+<p><strong>Summary in English</strong> (full text: <a href="en/">English</a>)</p>
+<p>Osusowake Nagaya keeps your photos and records only on your iPhone. There is no account, and the developer runs no server and no analytics. The app does not use your location: it sends only the fixed coordinates of the prefectural capital you choose (or, outside Japan, of the major city matched to your device&rsquo;s time zone or chosen by you) to Apple WeatherKit to get the weather.</p>
 <p>The app shows full-screen ads and optional rewarded video ads (played only when you tap the button) by Google AdMob. Google and its partners may collect the advertising identifier (only if you allow tracking), your IP address and approximate region, device information, and ad interactions. The app asks for tracking permission once, right after its first launch and before any ad is loaded. See the <a href="https://policies.google.com/privacy?hl=en">Google Privacy Policy</a>.</p>
 <p>The one-time purchase "町をひろげる" (Expand the town) removes the full-screen ads and lets you use the rewarded bonuses without ads; after the purchase the app neither loads ads nor asks for tracking permission. Purchases are processed by Apple.</p>
 <p>Contact: <a href="mailto:support@hokuhokusan.com">support@hokuhokusan.com</a></p>
